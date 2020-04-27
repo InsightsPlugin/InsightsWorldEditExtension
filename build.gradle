@@ -1,0 +1,28 @@
+allprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    group 'net.frankheijden.wecompatibility'
+    version = '1.0.0'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = '1.8'
+}
+
+subprojects.each { subproject ->
+    evaluationDependsOn(subproject.path)
+}
+
+task fatJar(type: Jar, dependsOn: subprojects.jar) {
+    subprojects.each { subproject ->
+        from subproject.configurations.archives.artifacts.files.collect {
+            zipTree(it)
+        }
+    }
+}

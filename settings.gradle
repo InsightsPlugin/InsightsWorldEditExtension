@@ -1,0 +1,3 @@
+rootProject.name = 'wecompatibility'
+include 'core', 'we6', 'we7'
+
