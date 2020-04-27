@@ -6,6 +6,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockStateHolder;
 import net.frankheijden.wecompatibility.core.*;
 import org.bukkit.Bukkit;
@@ -32,7 +33,10 @@ public class WorldEditExtent extends AbstractDelegateExtent {
         SetResult result = delegate.setBlock(player, from(location), BukkitAdapter.adapt(block).getMaterial());
         Super superCall = result.getSuperCall();
         if (superCall == null) return result.isResult();
-        return super.setBlock(location, BukkitAdapter.adapt(Bukkit.createBlockData(superCall.getMaterial())));
+
+        BlockState blockState = BukkitAdapter.adapt(Bukkit.createBlockData(superCall.getMaterial()));
+        super.setBlock(location, blockState);
+        return result.isResult();
     }
 
     private Vector from(BlockVector3 v) {

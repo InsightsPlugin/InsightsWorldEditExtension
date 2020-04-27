@@ -46,8 +46,10 @@ public class WorldEditExtent extends AbstractDelegateExtent {
         SetResult result = delegate.setBlock(player, adapt(location), material);
         Super superCall = result.getSuperCall();
         if (superCall == null) return result.isResult();
+
         BaseBlock baseBlock = new BaseBlock(adapter.getBlockId(superCall.getMaterial()));
-        return super.setBlock(location, baseBlock);
+        super.setBlock(location, baseBlock);
+        return result.isResult();
     }
 
     private net.frankheijden.wecompatibility.core.Vector adapt(Vector v) {
