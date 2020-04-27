@@ -2,11 +2,11 @@ package net.frankheijden.wecompatibility.core;
 
 import org.bukkit.Material;
 
-public class Super {
+public class CustomBlock {
     private Vector vector;
     private Material material;
 
-    public Super(Vector vector, Material material) {
+    public CustomBlock(Vector vector, Material material) {
         this.vector = vector;
         this.material = material;
     }

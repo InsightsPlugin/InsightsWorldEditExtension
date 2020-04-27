@@ -30,13 +30,12 @@ public class WorldEditExtent extends AbstractDelegateExtent {
 
     @Override
     public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 location, T block) throws WorldEditException {
-        SetResult result = delegate.setBlock(player, from(location), BukkitAdapter.adapt(block).getMaterial());
-        Super superCall = result.getSuperCall();
-        if (superCall == null) return result.isResult();
+        CustomBlock customBlock = delegate.setBlock(player, from(location), BukkitAdapter.adapt(block).getMaterial());
+        if (customBlock == null) return super.setBlock(location, block);
 
-        BlockState blockState = BukkitAdapter.adapt(Bukkit.createBlockData(superCall.getMaterial()));
+        BlockState blockState = BukkitAdapter.adapt(Bukkit.createBlockData(customBlock.getMaterial()));
         super.setBlock(location, blockState);
-        return result.isResult();
+        return false;
     }
 
     private Vector from(BlockVector3 v) {

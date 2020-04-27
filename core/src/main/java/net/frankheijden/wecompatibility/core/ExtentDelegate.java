@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public interface ExtentDelegate {
 
-    SetResult setBlock(Player player, Vector vector, Material material);
+    CustomBlock setBlock(Player player, Vector vector, Material material);
 
     void onCommit(Player player);
 }
