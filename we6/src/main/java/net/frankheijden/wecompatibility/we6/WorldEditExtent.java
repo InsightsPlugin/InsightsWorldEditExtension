@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class WorldEditExtent extends AbstractDelegateExtent {
 
@@ -28,31 +27,21 @@ public class WorldEditExtent extends AbstractDelegateExtent {
         this.delegate = delegate;
 
         try {
-            adapter = getAdapter(plugin);
+            adapter = Utils.getAdapter(plugin);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             ex.printStackTrace();
         }
     }
 
-    private BukkitImplAdapter getAdapter(WorldEditPlugin plugin) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = plugin.getClass().getDeclaredMethod("getBukkitImplAdapter");
-        m.setAccessible(true);
-        return (BukkitImplAdapter) m.invoke(plugin);
-    }
-
     @Override
     public boolean setBlock(Vector location, BaseBlock block) throws WorldEditException {
         Material material = adapter.getMaterial(block.getId());
-        CustomBlock customBlock = delegate.setBlock(player, adapt(location), material);
+        CustomBlock customBlock = delegate.setBlock(player, Utils.adapt(location), material);
         if (customBlock == null) return super.setBlock(location, block);
 
         BaseBlock baseBlock = new BaseBlock(adapter.getBlockId(customBlock.getMaterial()));
         super.setBlock(location, baseBlock);
         return false;
-    }
-
-    private net.frankheijden.wecompatibility.core.Vector adapt(Vector v) {
-        return new net.frankheijden.wecompatibility.core.Vector(v.getBlockX(), v.getBlockY(), v.getBlockZ());
     }
 
     @Nullable
