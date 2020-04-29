@@ -2,6 +2,7 @@ package net.frankheijden.wecompatibility.we7;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.sk89q.jnbt.CompoundTag;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.entity.BaseEntity;
 import com.sk89q.worldedit.entity.Entity;
@@ -63,6 +64,10 @@ public abstract class AbstractDelegateExtent implements Extent {
     @Override
     public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 location, T block) throws WorldEditException {
         return extent.setBlock(location, block);
+    }
+
+    public boolean setTile(int i, int i1, int i2, CompoundTag compoundTag) throws WorldEditException {
+        return false;
     }
 
     @Override
