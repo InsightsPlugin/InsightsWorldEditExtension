@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * ------
  * A base class for {@link Extent}s that merely passes extents onto another.
  */
-public abstract class AbstractDelegateExtent implements Extent {
+public abstract class IAbstractDelegateExtent implements Extent {
 
     private final Extent extent;
 
@@ -37,7 +37,7 @@ public abstract class AbstractDelegateExtent implements Extent {
      *
      * @param extent the extent
      */
-    protected AbstractDelegateExtent(Extent extent) {
+    protected IAbstractDelegateExtent(Extent extent) {
         checkNotNull(extent);
         this.extent = extent;
     }

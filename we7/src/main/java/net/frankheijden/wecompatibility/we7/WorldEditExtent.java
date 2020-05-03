@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 
-public class WorldEditExtent extends AbstractDelegateExtent {
+public class WorldEditExtent extends IAbstractDelegateExtent {
 
     private final Player player;
     private final ExtentDelegate delegate;
