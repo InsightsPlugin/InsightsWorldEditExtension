@@ -9,10 +9,19 @@ import java.lang.reflect.Method;
 
 public class Utils {
 
-    public static BukkitImplAdapter getAdapter(WorldEditPlugin plugin) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = plugin.getClass().getDeclaredMethod("getBukkitImplAdapter");
-        m.setAccessible(true);
-        return (BukkitImplAdapter) m.invoke(plugin);
+    public static Method getBukkitImplAdapter;
+
+    static {
+        try {
+            getBukkitImplAdapter = WorldEditPlugin.class.getDeclaredMethod("getBukkitImplAdapter");
+            getBukkitImplAdapter.setAccessible(true);
+        } catch (NoSuchMethodException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static BukkitImplAdapter getAdapter(WorldEditPlugin plugin) throws InvocationTargetException, IllegalAccessException {
+        return (BukkitImplAdapter) getBukkitImplAdapter.invoke(plugin);
     }
 
     public static net.frankheijden.wecompatibility.core.Vector adapt(Vector v) {

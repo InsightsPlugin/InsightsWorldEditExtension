@@ -28,7 +28,7 @@ public class WorldEditExtent extends IAbstractDelegateExtent {
 
         try {
             adapter = Utils.getAdapter(plugin);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+        } catch (IllegalAccessException | InvocationTargetException ex) {
             ex.printStackTrace();
         }
     }

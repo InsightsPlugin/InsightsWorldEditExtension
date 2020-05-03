@@ -30,7 +30,7 @@ public class FAWorldEditExtent extends AbstractDelegateExtent {
 
         try {
             adapter = Utils.getAdapter(plugin);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+        } catch (IllegalAccessException | InvocationTargetException ex) {
             ex.printStackTrace();
         }
     }
