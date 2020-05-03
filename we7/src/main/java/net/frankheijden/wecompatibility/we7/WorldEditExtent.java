@@ -3,6 +3,7 @@ package net.frankheijden.wecompatibility.we7;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.extent.AbstractDelegateExtent;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -12,9 +13,7 @@ import net.frankheijden.wecompatibility.core.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
-
-public class WorldEditExtent extends IAbstractDelegateExtent {
+public class WorldEditExtent extends AbstractDelegateExtent {
 
     private final Player player;
     private final ExtentDelegate delegate;
@@ -38,11 +37,9 @@ public class WorldEditExtent extends IAbstractDelegateExtent {
         return false;
     }
 
-    @Nullable
     @Override
-    public Operation commit() {
-        Operation o = super.commit();
+    protected Operation commitBefore() {
         delegate.onCommit(player);
-        return o;
+        return super.commitBefore();
     }
 }
