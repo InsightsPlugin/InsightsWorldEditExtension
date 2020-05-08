@@ -1,5 +1,8 @@
 package net.frankheijden.wecompatibility.core;
 
+import org.bukkit.Location;
+import org.bukkit.World;
+
 public class Vector {
 
     private int x,y,z;
@@ -8,6 +11,10 @@ public class Vector {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public static Vector of(Location loc) {
+        return new Vector(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }
 
     public int getX() {
@@ -32,5 +39,9 @@ public class Vector {
 
     public void setZ(int z) {
         this.z = z;
+    }
+
+    public Location toLocation(World world) {
+        return new Location(world, x, y, z);
     }
 }
