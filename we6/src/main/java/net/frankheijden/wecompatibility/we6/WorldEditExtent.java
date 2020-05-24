@@ -10,16 +10,21 @@ import net.frankheijden.wecompatibility.core.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WorldEditExtent extends AbstractDelegateExtent {
 
     private final Player player;
     private final ExtentDelegate delegate;
+    private final Map<Vector, Integer> duplicateCatcher;
 
     public WorldEditExtent(Player player, Extent extent, ExtentDelegate delegate) {
         super(extent);
 
         this.player = player;
         this.delegate = delegate;
+        this.duplicateCatcher = new HashMap<>();
     }
 
     @Override
@@ -30,14 +35,22 @@ public class WorldEditExtent extends AbstractDelegateExtent {
         CustomBlock customBlock = delegate.setBlock(player, vector, to);
 
         if (customBlock == null) {
-            delegate.onChange(player, vector, from, to);
+            callChange(player, location, from, to);
             return super.setBlock(location, block);
         }
 
         BaseBlock replaceBlock = new BaseBlock(customBlock.getMaterial().getId());
-        delegate.onChange(player, vector, from, customBlock.getMaterial());
+        callChange(player, location, from, customBlock.getMaterial());
         super.setBlock(location, replaceBlock);
         return false;
+    }
+
+    private void callChange(Player player, Vector vector, Material from, Material to) {
+        Integer id = duplicateCatcher.get(vector);
+        if (id == null || id != to.getId()) {
+            delegate.onChange(player, Utils.adapt(vector), from, to);
+            duplicateCatcher.put(vector, to.getId());
+        }
     }
 
     @Override
