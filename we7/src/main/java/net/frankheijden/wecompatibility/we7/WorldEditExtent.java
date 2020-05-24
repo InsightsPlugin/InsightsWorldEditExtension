@@ -1,5 +1,6 @@
 package net.frankheijden.wecompatibility.we7;
 
+import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.AbstractDelegateExtent;
@@ -17,12 +18,14 @@ public class WorldEditExtent extends AbstractDelegateExtent {
 
     private final Player player;
     private final ExtentDelegate delegate;
+    private final EditSession.Stage stage;
 
-    public WorldEditExtent(Player player, Extent extent, ExtentDelegate delegate) {
+    public WorldEditExtent(Player player, Extent extent, EditSession.Stage stage, ExtentDelegate delegate) {
         super(extent);
 
         this.player = player;
         this.delegate = delegate;
+        this.stage = stage;
     }
 
     @Override
@@ -32,14 +35,20 @@ public class WorldEditExtent extends AbstractDelegateExtent {
         Vector vector = Utils.from(location);
         CustomBlock customBlock = delegate.setBlock(player, vector, to);
         if (customBlock == null) {
-            delegate.onChange(player, vector, from, to);
+            callChange(player, vector, from, to);
             return super.setBlock(location, block);
         }
 
         BlockState blockState = BukkitAdapter.adapt(Bukkit.createBlockData(customBlock.getMaterial()));
-        delegate.onChange(player, vector, from, customBlock.getMaterial());
+        callChange(player, vector, from, to);
         super.setBlock(location, blockState);
         return false;
+    }
+
+    private void callChange(Player player, Vector vector, Material from, Material to) {
+        if (stage == EditSession.Stage.BEFORE_CHANGE) {
+            delegate.onChange(player, vector, from, to);
+        }
     }
 
     @Override

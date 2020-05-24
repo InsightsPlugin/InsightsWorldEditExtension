@@ -10,21 +10,18 @@ import net.frankheijden.wecompatibility.core.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class WorldEditExtent extends AbstractDelegateExtent {
 
     private final Player player;
     private final ExtentDelegate delegate;
-    private final Map<Vector, Integer> duplicateCatcher;
+    private final EditSession.Stage stage;
 
-    public WorldEditExtent(Player player, Extent extent, ExtentDelegate delegate) {
+    public WorldEditExtent(Player player, Extent extent, EditSession.Stage stage, ExtentDelegate delegate) {
         super(extent);
 
         this.player = player;
         this.delegate = delegate;
-        this.duplicateCatcher = new HashMap<>();
+        this.stage = stage;
     }
 
     @Override
@@ -46,10 +43,8 @@ public class WorldEditExtent extends AbstractDelegateExtent {
     }
 
     private void callChange(Player player, Vector vector, Material from, Material to) {
-        Integer id = duplicateCatcher.get(vector);
-        if (id == null || id != to.getId()) {
+        if (stage == EditSession.Stage.BEFORE_CHANGE) {
             delegate.onChange(player, Utils.adapt(vector), from, to);
-            duplicateCatcher.put(vector, to.getId());
         }
     }
 
