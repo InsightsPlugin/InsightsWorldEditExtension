@@ -2,7 +2,6 @@ package net.frankheijden.wecompatibility.we7;
 
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.extent.AbstractDelegateExtent;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.function.operation.Operation;
@@ -18,12 +17,10 @@ public class WorldEditExtent extends AbstractDelegateExtent {
 
     private final Player player;
     private final ExtentDelegate delegate;
-    private final WorldEditPlugin plugin;
 
-    public WorldEditExtent(WorldEditPlugin plugin, Player player, Extent extent, ExtentDelegate delegate) {
+    public WorldEditExtent(Player player, Extent extent, ExtentDelegate delegate) {
         super(extent);
 
-        this.plugin = plugin;
         this.player = player;
         this.delegate = delegate;
     }
