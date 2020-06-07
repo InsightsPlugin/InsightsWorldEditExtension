@@ -26,8 +26,6 @@ public class WorldEditExtent extends AbstractDelegateExtent {
         this.player = player;
         this.delegate = delegate;
         this.stage = stage;
-
-        this.delegate.handleStage(stage.name());
     }
 
     @Override

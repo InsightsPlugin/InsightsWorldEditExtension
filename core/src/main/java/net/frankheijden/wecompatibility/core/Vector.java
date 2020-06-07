@@ -3,6 +3,8 @@ package net.frankheijden.wecompatibility.core;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.util.Objects;
+
 public class Vector {
 
     private int x,y,z;
@@ -43,5 +45,20 @@ public class Vector {
 
     public Location toLocation(World world) {
         return new Location(world, x, y, z);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector vector = (Vector) o;
+        return x == vector.x &&
+                y == vector.y &&
+                z == vector.z;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
     }
 }

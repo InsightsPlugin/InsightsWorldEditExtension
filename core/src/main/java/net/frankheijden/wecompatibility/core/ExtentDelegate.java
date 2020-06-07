@@ -5,8 +5,6 @@ import org.bukkit.entity.Player;
 
 public interface ExtentDelegate {
 
-    void handleStage(String stage);
-
     CustomBlock setBlock(Player player, Vector vector, Material material);
 
     void onChange(Player player, Vector vector, Material from, Material to);
