@@ -26,6 +26,8 @@ public class WorldEditExtent extends AbstractDelegateExtent {
         this.player = player;
         this.delegate = delegate;
         this.stage = stage;
+
+        this.delegate.handleStage(stage.name());
     }
 
     @Override
@@ -53,7 +55,9 @@ public class WorldEditExtent extends AbstractDelegateExtent {
 
     @Override
     protected Operation commitBefore() {
-        delegate.onCommit(player);
+        if (stage == EditSession.Stage.BEFORE_HISTORY) {
+            delegate.onCommit(player);
+        }
         return super.commitBefore();
     }
 }
