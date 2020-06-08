@@ -30,6 +30,15 @@ public class WorldEditExtent extends AbstractDelegateExtent {
 
     @Override
     public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 location, T block) throws WorldEditException {
+        return checkBlock(location, block);
+    }
+
+    @Override
+    public <T extends BlockStateHolder<T>> boolean setBlock(int x, int y, int z, T block) throws WorldEditException {
+        return checkBlock(BlockVector3.at(x, y, z), block);
+    }
+
+    private <T extends BlockStateHolder<T>> boolean checkBlock(BlockVector3 location, T block) {
         Material from = BukkitAdapter.adapt(getBlock(location)).getMaterial();
         Material to = BukkitAdapter.adapt(block).getMaterial();
         Vector vector = Utils.from(location);

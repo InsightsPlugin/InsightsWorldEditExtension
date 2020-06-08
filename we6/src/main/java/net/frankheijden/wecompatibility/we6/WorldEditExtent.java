@@ -26,6 +26,15 @@ public class WorldEditExtent extends AbstractDelegateExtent {
 
     @Override
     public boolean setBlock(Vector location, BaseBlock block) throws WorldEditException {
+        return checkBlock(location, block);
+    }
+
+    @Override
+    public boolean setBlock(int x, int y, int z, BaseBlock block) throws WorldEditException {
+        return checkBlock(new Vector(x, y, z), block);
+    }
+
+    private boolean checkBlock(Vector location, BaseBlock block) throws WorldEditException {
         Material from = Material.getMaterial(getBlock(location).getId());
         Material to = Material.getMaterial(block.getId());
         net.frankheijden.wecompatibility.core.Vector vector = Utils.adapt(location);
