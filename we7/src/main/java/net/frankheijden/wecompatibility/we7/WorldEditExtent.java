@@ -50,8 +50,7 @@ public class WorldEditExtent extends AbstractDelegateExtent {
 
         BlockState blockState = BukkitAdapter.adapt(Bukkit.createBlockData(customBlock.getMaterial()));
         callChange(player, vector, from, to);
-        super.setBlock(location, blockState);
-        return false;
+        return super.setBlock(location, blockState);
     }
 
     private void callChange(Player player, Vector vector, Material from, Material to) {

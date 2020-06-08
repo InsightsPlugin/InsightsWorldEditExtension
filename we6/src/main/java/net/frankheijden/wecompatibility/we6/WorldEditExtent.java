@@ -47,8 +47,7 @@ public class WorldEditExtent extends AbstractDelegateExtent {
 
         BaseBlock replaceBlock = new BaseBlock(customBlock.getMaterial().getId());
         callChange(player, location, from, customBlock.getMaterial());
-        super.setBlock(location, replaceBlock);
-        return false;
+        return super.setBlock(location, replaceBlock);
     }
 
     private void callChange(Player player, Vector vector, Material from, Material to) {
