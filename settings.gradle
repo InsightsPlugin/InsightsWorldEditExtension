@@ -1,3 +1,4 @@
-rootProject.name = 'wecompatibility'
-include 'core', 'we6', 'we7'
-
+rootProject.name = 'InsightsWorldEditExtension'
+include 'Plugin'
+include 'WorldEdit6'
+include 'WorldEdit7'
