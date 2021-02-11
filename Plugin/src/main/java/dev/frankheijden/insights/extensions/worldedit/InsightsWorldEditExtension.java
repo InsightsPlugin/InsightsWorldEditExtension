@@ -96,7 +96,7 @@ public class InsightsWorldEditExtension extends JavaPlugin {
     }
 
     private Extent createExtent(World world, Player player, Extent extent, EditSession.Stage stage) {
-        InsightsExtentDelegate delegate = new InsightsExtentDelegate(this, world, player, extent, stage);
+        InsightsExtentDelegate delegate = new InsightsExtentDelegate(this, world, player);
         try {
             Constructor<?> constructor = worldEditExtentClass.getDeclaredConstructors()[0];
             return (Extent) constructor.newInstance(extent, player, stage, delegate);

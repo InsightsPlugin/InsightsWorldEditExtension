@@ -31,21 +31,17 @@ public class InsightsExtentDelegate implements ExtentDelegate {
     private final World world;
     private final UUID worldUid;
     private final Player player;
-    private final Extent extent;
-    private final EditSession.Stage stage;
     private final LimitEnvironment env;
     private final Map<String, Boolean> permissionCache = new HashMap<>();
     private final Map<Material, Optional<Limit>> limitCache = new HashMap<>();
     private final Distribution<Material> replacedBlocks = new Distribution<>(new HashMap<>());
     private boolean notified = false;
 
-    public InsightsExtentDelegate(InsightsWorldEditExtension plugin, World world, Player player, Extent extent, EditSession.Stage stage) {
+    public InsightsExtentDelegate(InsightsWorldEditExtension plugin, World world, Player player) {
         this.settings = plugin.getSettings();
         this.world = world;
         this.worldUid = world.getUID();
         this.player = player;
-        this.extent = extent;
-        this.stage = stage;
         this.env = new LimitEnvironment(player, world.getUID());
     }
 
