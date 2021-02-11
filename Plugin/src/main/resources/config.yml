@@ -1,0 +1,17 @@
+settings:
+  type: "REPLACEMENT"
+  replacement-block: "BEDROCK"
+  use-limits: true
+  disable-tiles: true
+  extra-blocked:
+    whitelist: false
+    materials:
+      - "DIRT"
+
+messages:
+  summary:
+    header: "&8&m---------------=&r&8[&b&l WorldEdit Limit&r &8]&m=---------------"
+    format: "&b %entry%&8: &7&l%count%"
+    unchanged: "&3 Prevented a total of &b&l%count% &3blocks from being placed."
+    replaced: "&3 Replaced a total of &b&l%count% &3blocks with &b%replacement%&3."
+    footer: "&8&m-------------------------------------------------"

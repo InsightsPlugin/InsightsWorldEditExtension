@@ -1,0 +1,9 @@
+group = rootProject.group + '.worldedit7'
+version = rootProject.version
+archivesBaseName = baseName + '-WorldEdit7'
+
+dependencies {
+    compileOnly project(":Plugin")
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT'
+}
