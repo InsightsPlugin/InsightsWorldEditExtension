@@ -1,7 +1,5 @@
 package dev.frankheijden.insights.extensions.worldedit;
 
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.extent.Extent;
 import dev.frankheijden.insights.api.InsightsPlugin;
 import dev.frankheijden.insights.api.concurrent.storage.Distribution;
 import dev.frankheijden.insights.api.concurrent.storage.DistributionStorage;
@@ -42,7 +40,7 @@ public class InsightsExtentDelegate implements ExtentDelegate {
         this.world = world;
         this.worldUid = world.getUID();
         this.player = player;
-        this.env = new LimitEnvironment(player, world.getUID());
+        this.env = new LimitEnvironment(player, world.getName());
     }
 
     private boolean hasPermission(String permission) {
