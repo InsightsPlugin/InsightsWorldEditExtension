@@ -27,7 +27,7 @@ subprojects {
     }
 
     dependencies {
-        compileOnly 'com.github.InsightsPlugin:Insights:6.0.0-RC7'
+        compileOnly 'com.github.InsightsPlugin:Insights:6.1.0'
     }
 }
 

@@ -2,11 +2,12 @@ package dev.frankheijden.insights.extensions.worldedit;
 
 import dev.frankheijden.insights.api.InsightsPlugin;
 import dev.frankheijden.insights.api.concurrent.storage.Distribution;
-import dev.frankheijden.insights.api.concurrent.storage.DistributionStorage;
+import dev.frankheijden.insights.api.concurrent.storage.Storage;
 import dev.frankheijden.insights.api.config.LimitEnvironment;
 import dev.frankheijden.insights.api.config.Limits;
 import dev.frankheijden.insights.api.config.limits.Limit;
 import dev.frankheijden.insights.api.objects.math.Vector3;
+import dev.frankheijden.insights.api.objects.wrappers.ScanObject;
 import dev.frankheijden.insights.api.reflection.RTileEntityTypes;
 import dev.frankheijden.insights.api.utils.ChunkUtils;
 import dev.frankheijden.insights.api.utils.EnumUtils;
@@ -15,9 +16,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -31,8 +34,8 @@ public class InsightsExtentDelegate implements ExtentDelegate {
     private final Player player;
     private final LimitEnvironment env;
     private final Map<String, Boolean> permissionCache = new HashMap<>();
-    private final Map<Material, Optional<Limit>> limitCache = new HashMap<>();
-    private final Distribution<Material> replacedBlocks = new Distribution<>(new HashMap<>());
+    private final Map<Material, Optional<Limit>> limitCache = new EnumMap<>(Material.class);
+    private final Distribution<Material> replacedBlocks = new Distribution<>(new EnumMap<>(Material.class));
     private boolean notified = false;
 
     public InsightsExtentDelegate(InsightsWorldEditExtension plugin, World world, Player player) {
@@ -81,10 +84,9 @@ public class InsightsExtentDelegate implements ExtentDelegate {
 
     @Override
     public void onChange(Player player, Vector3 vector, Material from, Material to) {
-        Consumer<DistributionStorage> storageConsumer = storage -> {
-            Distribution<Material> distribution = storage.materials();
-            distribution.modify(from, -1);
-            distribution.modify(to, 1);
+        Consumer<Storage> storageConsumer = storage -> {
+            storage.modify(ScanObject.of(from), -1);
+            storage.modify(ScanObject.of(to), 1);
         };
         insights.getWorldStorage().getWorld(worldUid).get(ChunkUtils.getKey(vector.getX(), vector.getZ()))
                 .ifPresent(storageConsumer);
@@ -95,7 +97,8 @@ public class InsightsExtentDelegate implements ExtentDelegate {
 
     @Override
     public void onCommit() {
-        int totalCount = replacedBlocks.count(replacedBlocks.keys());
+        Set<Material> keys = replacedBlocks.keys();
+        int totalCount = replacedBlocks.count(keys::contains);
         if (notified || totalCount == 0) return;
         notified = true;
 
