@@ -5,7 +5,7 @@ plugins {
 
 String name = "InsightsWorldEditExtension"
 group = 'dev.frankheijden.insights.extensions.worldedit'
-version = '2.0.1'
+version = '2.0.2'
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
