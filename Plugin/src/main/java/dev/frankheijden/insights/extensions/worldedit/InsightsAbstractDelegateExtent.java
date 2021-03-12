@@ -36,21 +36,12 @@ public abstract class InsightsAbstractDelegateExtent<B, V> extends AbstractDeleg
         Material from = getMaterialFromVector(vector);
         Material to = getMaterial(block);
         Vector3 vec3 = createInsightsVector(vector);
-        InsightsBlock insightsBlock = delegate.setBlock(player, vec3, to);
+        InsightsBlock insightsBlock = delegate.setBlock(player, stage, vec3, from, to);
 
         if (insightsBlock == null) {
-            tryCallChange(player, vec3, from, to);
             return setBlockInternal(vector, block);
         }
-
-        tryCallChange(player, vec3, from, insightsBlock.getMaterial());
         return setBlockInternal(vector, insightsBlock.getMaterial());
-    }
-
-    protected void tryCallChange(Player player, Vector3 vector, Material from, Material to) {
-        if (stage == EditSession.Stage.BEFORE_CHANGE) {
-            delegate.onChange(player, vector, from, to);
-        }
     }
 
     @Override

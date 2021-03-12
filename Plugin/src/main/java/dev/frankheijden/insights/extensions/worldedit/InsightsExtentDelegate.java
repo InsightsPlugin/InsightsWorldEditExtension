@@ -1,5 +1,6 @@
 package dev.frankheijden.insights.extensions.worldedit;
 
+import com.sk89q.worldedit.EditSession;
 import dev.frankheijden.insights.api.InsightsPlugin;
 import dev.frankheijden.insights.api.concurrent.storage.Distribution;
 import dev.frankheijden.insights.api.concurrent.storage.Storage;
@@ -55,35 +56,34 @@ public class InsightsExtentDelegate implements ExtentDelegate {
     }
 
     @Override
-    public InsightsBlock setBlock(Player player, Vector3 vector, Material material) {
-        boolean replace = getLimit(material).isPresent();
-        if (!replace && settings.DISABLE_TILES && RTileEntityTypes.isTileEntity(material) && !hasPermission("insights.worldedit.bypass.tiles")) {
+    public InsightsBlock setBlock(Player player, EditSession.Stage stage, Vector3 vector, Material from, Material to) {
+        boolean replace = getLimit(to).isPresent();
+        if (!replace && settings.DISABLE_TILES && RTileEntityTypes.isTileEntity(to) && !hasPermission("insights.worldedit.bypass.tiles")) {
             replace = true;
         } else if (!replace) {
-            if (settings.EXTRA_BLOCKED_MATERIALS.contains(material)) {
-                if (!settings.EXTRA_BLOCKED_WHITELIST && !hasPermission("insights.worldedit.bypass." + material.name())) {
+            if (settings.EXTRA_BLOCKED_MATERIALS.contains(to)) {
+                if (!settings.EXTRA_BLOCKED_WHITELIST && !hasPermission("insights.worldedit.bypass." + to.name())) {
                     replace = true;
                 }
             } else {
-                if (settings.EXTRA_BLOCKED_WHITELIST && !hasPermission("insights.worldedit.bypass." + material.name())) {
+                if (settings.EXTRA_BLOCKED_WHITELIST && !hasPermission("insights.worldedit.bypass." + to.name())) {
                     replace = true;
                 }
             }
         }
 
+        if (stage == EditSession.Stage.BEFORE_CHANGE) {
+            onChange(vector, from, to);
+        }
+
         if (replace) {
-            InsightsBlock block = new InsightsBlock(vector, material);
-            replacedBlocks.modify(material, 1);
-            if (settings.TYPE == Settings.WorldEditType.REPLACEMENT) {
-                block.setMaterial(settings.REPLACEMENT_BLOCK);
-            }
-            return block;
+            replacedBlocks.modify(to, 1);
+            return new InsightsBlock(vector, settings.TYPE == Settings.WorldEditType.REPLACEMENT ? settings.REPLACEMENT_BLOCK : from);
         }
         return null;
     }
 
-    @Override
-    public void onChange(Player player, Vector3 vector, Material from, Material to) {
+    public void onChange(Vector3 vector, Material from, Material to) {
         Consumer<Storage> storageConsumer = storage -> {
             storage.modify(ScanObject.of(from), -1);
             storage.modify(ScanObject.of(to), 1);
