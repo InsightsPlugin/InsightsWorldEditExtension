@@ -83,7 +83,7 @@ public class InsightsWorldEditExtension extends JavaPlugin {
         if (args.length != 1 || !args[0].equalsIgnoreCase("reload")) return false;
         reloadConfig();
         sender.sendMessage(ChatColor.GREEN + "InsightsWorldEditExtension has been reloaded.");
-        return false;
+        return true;
     }
 
     @Subscribe(priority = EventHandler.Priority.VERY_LATE)
