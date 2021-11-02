@@ -1,0 +1,8 @@
+group = rootProject.group + '.we'
+version = rootProject.version
+archivesBaseName = baseName + '-WE'
+
+dependencies {
+    compileOnly project(":Plugin")
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.2.7-SNAPSHOT'
+}

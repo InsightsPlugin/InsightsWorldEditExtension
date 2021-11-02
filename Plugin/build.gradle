@@ -3,13 +3,14 @@ version = rootProject.version
 archivesBaseName = baseName + '-Plugin'
 
 dependencies {
-    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
-    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT'
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.2.7-SNAPSHOT'
 }
 
 processResources {
     from('src/main/resources') {
         include 'plugin.yml'
         expand(version: project.version)
+
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 }

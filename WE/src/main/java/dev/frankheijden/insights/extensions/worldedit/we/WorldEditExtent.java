@@ -1,4 +1,4 @@
-package dev.frankheijden.insights.extensions.worldedit.worldedit7;
+package dev.frankheijden.insights.extensions.worldedit.we;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEditException;
@@ -13,14 +13,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class WorldEditExtent<T extends BlockStateHolder<T>> extends InsightsAbstractDelegateExtent<T, BlockVector3> {
+public class WorldEditExtent<B extends BlockStateHolder<B>> extends InsightsAbstractDelegateExtent<B, BlockVector3> {
 
     public WorldEditExtent(Extent extent, Player player, EditSession.Stage stage, ExtentDelegate delegate) {
         super(extent, player, stage, delegate);
     }
 
     @Override
-    protected Material getMaterial(T block) {
+    protected Material getMaterial(B block) {
         return BukkitAdapter.adapt(block.getBlockType());
     }
 
@@ -30,7 +30,7 @@ public class WorldEditExtent<T extends BlockStateHolder<T>> extends InsightsAbst
     }
 
     @Override
-    protected boolean setBlockInternal(BlockVector3 vector, T block) throws WorldEditException {
+    protected boolean setBlockInternal(BlockVector3 vector, B block) throws WorldEditException {
         return super.setBlock(vector, block);
     }
 
@@ -44,18 +44,8 @@ public class WorldEditExtent<T extends BlockStateHolder<T>> extends InsightsAbst
         return new Vector3(vector.getX(), vector.getY(), vector.getZ());
     }
 
-    /**
-     * WorldEdit.
-     */
     @Override
-    public <W extends BlockStateHolder<W>> boolean setBlock(BlockVector3 location, W block) throws WorldEditException {
-        return checkBlock((T) block, location);
-    }
-
-    /**
-     * FastAsyncWorldEdit.
-     */
-    public boolean setBlock(int x, int y, int z, T block) throws WorldEditException {
-        return checkBlock(block, BlockVector3.at(x, y, z));
+    public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 location, T block) throws WorldEditException {
+        return checkBlock((B) block, location);
     }
 }

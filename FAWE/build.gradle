@@ -1,0 +1,14 @@
+group = rootProject.group + '.fawe'
+version = rootProject.version
+archivesBaseName = baseName + '-FAWE'
+
+repositories {
+    maven { url = uri("https://mvn.intellectualsites.com/content/repositories/releases/") }
+}
+
+dependencies {
+    compileOnly project(":Plugin")
+    compileOnly project(":WE")
+    compileOnly 'com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:1.17-381'
+    compileOnly 'com.fastasyncworldedit:FastAsyncWorldEdit-Core:1.17-381'
+}

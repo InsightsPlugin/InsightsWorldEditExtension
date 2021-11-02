@@ -1,9 +1,0 @@
-group = rootProject.group + '.worldedit6'
-version = rootProject.version
-archivesBaseName = baseName + '-WorldEdit6'
-
-dependencies {
-    compileOnly project(":Plugin")
-    compileOnly 'com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT'
-    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.1.4-SNAPSHOT'
-}

@@ -1,4 +1,4 @@
 rootProject.name = 'InsightsWorldEditExtension'
 include 'Plugin'
-include 'WorldEdit6'
-include 'WorldEdit7'
+include 'WE'
+include 'FAWE'

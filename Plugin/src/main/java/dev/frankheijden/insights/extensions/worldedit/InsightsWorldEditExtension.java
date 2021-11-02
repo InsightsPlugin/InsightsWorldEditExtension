@@ -38,16 +38,10 @@ public class InsightsWorldEditExtension extends JavaPlugin {
         getLogger().info("Successfully hooked into " + (fawe ? "FastAsyncWorldEdit" : "WorldEdit") + "!");
 
         // Figure out the class
-        String worldEditPackage;
-        try {
-            Class.forName("com.sk89q.worldedit.math.BlockVector3");
-            worldEditPackage = "worldedit7";
-        } catch (ClassNotFoundException ex) {
-            worldEditPackage = "worldedit6";
-        }
+        String worldEditPackage = fawe ? "fawe.FaweWorldEditExtent" : "we.WorldEditExtent";
 
         try {
-            worldEditExtentClass = Class.forName("dev.frankheijden.insights.extensions.worldedit." + worldEditPackage + ".WorldEditExtent");
+            worldEditExtentClass = Class.forName("dev.frankheijden.insights.extensions.worldedit." + worldEditPackage);
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
