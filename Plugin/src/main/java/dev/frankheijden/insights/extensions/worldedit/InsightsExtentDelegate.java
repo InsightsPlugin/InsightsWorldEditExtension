@@ -98,7 +98,7 @@ public class InsightsExtentDelegate implements ExtentDelegate {
     @Override
     public void onCommit() {
         Set<Material> keys = replacedBlocks.keys();
-        int totalCount = replacedBlocks.count(keys::contains);
+        long totalCount = replacedBlocks.count(keys::contains);
         if (notified || totalCount == 0) return;
         notified = true;
 
