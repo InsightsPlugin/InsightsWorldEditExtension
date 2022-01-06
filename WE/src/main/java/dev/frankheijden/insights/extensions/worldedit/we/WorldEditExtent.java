@@ -13,14 +13,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class WorldEditExtent<B extends BlockStateHolder<B>> extends InsightsAbstractDelegateExtent<B, BlockVector3> {
+public class WorldEditExtent extends InsightsAbstractDelegateExtent<BlockVector3> {
 
     public WorldEditExtent(Extent extent, Player player, EditSession.Stage stage, ExtentDelegate delegate) {
         super(extent, player, stage, delegate);
     }
 
     @Override
-    protected Material getMaterial(B block) {
+    protected <T extends BlockStateHolder<T>> Material getMaterial(T block) {
         return BukkitAdapter.adapt(block.getBlockType());
     }
 
@@ -30,7 +30,7 @@ public class WorldEditExtent<B extends BlockStateHolder<B>> extends InsightsAbst
     }
 
     @Override
-    protected boolean setBlockInternal(BlockVector3 vector, B block) throws WorldEditException {
+    protected <T extends BlockStateHolder<T>> boolean setBlockInternal(BlockVector3 vector, T block) throws WorldEditException {
         return super.setBlock(vector, block);
     }
 
@@ -46,6 +46,6 @@ public class WorldEditExtent<B extends BlockStateHolder<B>> extends InsightsAbst
 
     @Override
     public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 location, T block) throws WorldEditException {
-        return checkBlock((B) block, location);
+        return checkBlock(block, location);
     }
 }
