@@ -57,7 +57,7 @@ public class InsightsExtentDelegate implements ExtentDelegate {
 
     @Override
     public InsightsBlock setBlock(Player player, EditSession.Stage stage, Vector3 vector, Material from, Material to) {
-        boolean replace = getLimit(to).isPresent();
+        boolean replace = settings.USE_LIMITS && getLimit(to).isPresent();
         if (!replace && settings.DISABLE_TILES && RTileEntityTypes.isTileEntity(to) && !hasPermission("insights.worldedit.bypass.tiles")) {
             replace = true;
         } else if (!replace) {
